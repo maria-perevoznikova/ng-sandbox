@@ -1,7 +1,4 @@
-import { Component, computed, signal } from '@angular/core';
-
-import { DUMMY_USERS } from '../dummy-users';
-
+import { Component, Input } from '@angular/core';
 
 
 @Component({
@@ -11,17 +8,14 @@ import { DUMMY_USERS } from '../dummy-users';
   styleUrl: './user.component.css',
 })
 export class UserComponent {
-  currentUser = signal(DUMMY_USERS[0]);
-  currentAvatarPath = computed(() => {
-    return `assets/users/${this.currentUser().avatar}`;
-  });
+  @Input() avatar: string = '';
+  @Input() name: string = '';
 
-  // get currentAvatarPath(): string {
-  //   return `assets/users/${this.currentUser().avatar}`;
-  // }
+  get avatarPath(): string {
+    return `assets/users/${this.avatar}`;
+  }
 
   onSelectUser() {
-    const randomIndex = Math.floor(Math.random() * DUMMY_USERS.length);
-    this.currentUser.set(DUMMY_USERS[randomIndex]);
+    console.log('User selected:', this.name);
   }
 }
