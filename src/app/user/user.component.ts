@@ -1,5 +1,5 @@
-import { Component, input, computed, EventEmitter } from '@angular/core';
-import { Input, Output } from '@angular/core';
+import { Component, input, computed, output } from '@angular/core';
+// import { Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-user',
@@ -12,7 +12,7 @@ export class UserComponent {
   // @Input({required: true}) id!: string;
   // @Input({required: true}) avatar!: string;
   // @Input({required: true}) name!: string;
-  @Output() select = new EventEmitter();
+  // @Output() select = new EventEmitter();
 
   // get avatarPath(): string {
   //   return `assets/users/${this.avatar}`;
@@ -22,6 +22,7 @@ export class UserComponent {
   id = input.required<string>();
   avatar = input.required<string>();
   name = input.required<string>();
+  select = output<string>();
 
   avatarPath = computed(
     () => `assets/users/${this.avatar()}`
