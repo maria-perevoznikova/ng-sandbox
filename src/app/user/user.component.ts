@@ -1,5 +1,6 @@
 import { Component, input, computed, output } from '@angular/core';
 // import { Input, Output, EventEmitter } from '@angular/core';
+import { User } from '../user';
 
 @Component({
   selector: 'app-user',
@@ -9,27 +10,23 @@ import { Component, input, computed, output } from '@angular/core';
 })
 export class UserComponent {
   // 'old' style input
-  // @Input({required: true}) id!: string;
-  // @Input({required: true}) avatar!: string;
-  // @Input({required: true}) name!: string;
+  // @Input({required: true}) user!: User;
   // @Output() select = new EventEmitter<string>();
 
   // get avatarPath(): string {
-  //   return `assets/users/${this.avatar}`;
+  //   return `assets/users/${this.user.avatar}`;
   // }
 
   // signal inputs
-  id = input.required<string>();
-  avatar = input.required<string>();
-  name = input.required<string>();
+  user = input.required<User>();
   select = output<string>();
 
   avatarPath = computed(
-    () => `assets/users/${this.avatar()}`
+    () => `assets/users/${this.user().avatar}`
   );
 
   onClickUserButton() {
-    console.log('User button click:', this.name());
-    this.select.emit(this.id());
+    console.log('User button click:', this.user().name);
+    this.select.emit(this.user().id);
   }
 }

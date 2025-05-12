@@ -2,8 +2,8 @@
   <button (click)="onClickUserButton()">
     <img
       [src]="avatarPath()"
-      [alt]="name()"
+      [alt]="user().name"
     />
-    <span>{{ name() }}</span>
+    <span>{{ user().name }}</span>
   </button>
 </div>
