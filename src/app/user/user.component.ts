@@ -1,6 +1,11 @@
 import { Component, input, computed, output } from '@angular/core';
 // import { Input, Output, EventEmitter } from '@angular/core';
-import { User } from '../user';
+
+export type User = {
+  id: string;
+  name: string;
+  avatar: string;
+};
 
 @Component({
   selector: 'app-user',
