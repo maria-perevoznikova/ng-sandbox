@@ -4,8 +4,10 @@ import { Component } from '@angular/core';
   selector: 'app-task',
   imports: [],
   templateUrl: './task.component.html',
-  styleUrl: './task.component.css'
+  styleUrl: './task.component.css',
 })
 export class TaskComponent {
-
+  complete() {
+    throw new Error('Method not implemented.');
+  }
 }
