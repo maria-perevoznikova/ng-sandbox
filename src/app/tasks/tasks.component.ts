@@ -22,7 +22,7 @@ export class TasksComponent {
     throw new Error('Method not implemented.');
   }
 
-  onCompleteTask($event: Event) {
-    throw new Error('Method not implemented.');
+  onCompleteTask(id: string) {
+    console.log('Task completed:', id);
   }
 }

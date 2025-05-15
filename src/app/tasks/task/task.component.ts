@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { Task } from './task.model';
 
 @Component({
@@ -9,8 +9,9 @@ import { Task } from './task.model';
 })
 export class TaskComponent {
   task = input.required<Task>();
+  complete = output<string>();
 
-  complete() {
-    throw new Error('Method not implemented.');
+  onCompleteTask() {
+    this.complete.emit(this.task().id);
   }
 }
