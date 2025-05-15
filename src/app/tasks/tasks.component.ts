@@ -1,4 +1,4 @@
-import { Component, input, computed } from '@angular/core';
+import { Component, input, computed, signal } from '@angular/core';
 import { TaskComponent } from './task/task.component';
 import { DUMMY_TASKS } from './dummy-tasks';
 
@@ -9,13 +9,13 @@ import { DUMMY_TASKS } from './dummy-tasks';
   styleUrl: './tasks.component.css',
 })
 export class TasksComponent {
-  allUsersTasks = DUMMY_TASKS;
+  allUsersTasks = signal(DUMMY_TASKS);
 
   userId = input.required<string>();
   userName = input.required<string>();
 
   selectedUserTasks = computed(() => {
-    return this.allUsersTasks.filter((task) => task.userId === this.userId());
+    return this.allUsersTasks().filter((task) => task.userId === this.userId());
   });
 
   add() {
@@ -23,7 +23,8 @@ export class TasksComponent {
   }
 
   onCompleteTask(id: string) {
-    this.allUsersTasks = this.allUsersTasks.filter((task) => task.id !== id);
+    // this.allUsersTasks.set(this.allUsersTasks().filter((task) => task.id !== id));
+    this.allUsersTasks.update(v => v.filter((task) => task.id !== id));
 
     console.log('Task completed:', id);
     console.log('Remaining tasks:', this.allUsersTasks);
