@@ -19,6 +19,7 @@ export class UserComponent {
 
   // signal inputs
   user = input.required<User>();
+  selected = input.required<boolean>();
   select = output<string>();
 
   avatarPath = computed(
