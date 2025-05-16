@@ -38,7 +38,13 @@ export class TasksComponent {
   }
 
   onAddNewTask(newTask: NewTask) {
-    console.log('Added a new task for user:', newTask.userId);
+    this.allUsersTasks.update((v) => [...v, { ...newTask, id: generateNewId() }]);
     this.isAddingTask.set(false);
+    console.log('Added a new task for user:', newTask.userId);
   }
 }
+function generateNewId(): string {
+  // todo improve
+  return new Date().getTime().toString();
+}
+
