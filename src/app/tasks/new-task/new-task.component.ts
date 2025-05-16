@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -11,9 +11,9 @@ export class NewTaskComponent {
   userId = input.required<string>();
   cancel = output<string>();
 
-  title = '';
-  summary = '';
-  dueDate = '';
+  title = signal('');
+  summary = signal('');
+  dueDate = signal('');
   
   onCancel() {
     this.cancel.emit(this.userId());
