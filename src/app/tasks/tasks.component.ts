@@ -2,6 +2,7 @@ import { Component, input, computed, signal } from '@angular/core';
 import { TaskComponent } from './task/task.component';
 import { DUMMY_TASKS } from './dummy-tasks';
 import { NewTaskComponent } from './new-task/new-task.component';
+import { NewTask } from './new-task/new-task.model';
 
 @Component({
   selector: 'app-tasks',
@@ -34,5 +35,10 @@ export class TasksComponent {
   onCancelAddingTask() {
     this.isAddingTask.set(false);
     console.log('Cancel adding task for user:', this.userId());
+  }
+
+  onAddNewTask(newTask: NewTask) {
+    console.log('Added a new task for user:', newTask.userId);
+    this.isAddingTask.set(false);
   }
 }

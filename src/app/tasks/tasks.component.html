@@ -7,7 +7,7 @@
   </header>
 
   @if(isAddingTask()) {
-    <app-new-task [userId]="userId()" (cancel)="onCancelAddingTask()"/>
+    <app-new-task [userId]="userId()" (cancel)="onCancelAddingTask()" (create)="onAddNewTask($event)"/>
   }
 
   <ul>
