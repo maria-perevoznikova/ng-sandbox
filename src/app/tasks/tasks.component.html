@@ -2,9 +2,14 @@
   <header>
     <h2>{{ userName() }}'s Tasks</h2>
     <menu>
-      <button (click)="add()">Add Task</button>
+      <button (click)="onStartAddingTask()">Add Task</button>
     </menu>
   </header>
+
+  @if(isAddingTask()) {
+    <app-new-task [userId]="userId()"/>
+  }
+  
   <ul>
     @for (task of selectedUserTasks(); track task.id) {
     <li>
