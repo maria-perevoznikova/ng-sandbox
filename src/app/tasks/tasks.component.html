@@ -7,9 +7,9 @@
   </header>
 
   @if(isAddingTask()) {
-    <app-new-task [userId]="userId()"/>
+    <app-new-task [userId]="userId()" (cancel)="onCancelAddingTask()"/>
   }
-  
+
   <ul>
     @for (task of selectedUserTasks(); track task.id) {
     <li>
