@@ -18,13 +18,8 @@ export class TasksComponent {
   // tasksService is initialized via dependency injection
   constructor(private tasksService: TasksService) {}
 
-  get selectedUserTasks() {
+  get userTasks() {
     return this.tasksService.getUserTasks(this.userId());
-  }
-
-  onCompleteTask(id: string) {
-    this.tasksService.deleteTask(id);
-    console.log('Task completed:', id);
   }
 
   onStartAddingTask() {
