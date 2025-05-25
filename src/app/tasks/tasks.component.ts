@@ -1,6 +1,5 @@
 import { Component, input, computed, signal } from '@angular/core';
 import { TaskComponent } from './task/task.component';
-import { DUMMY_TASKS } from './dummy-tasks';
 import { NewTaskComponent } from './new-task/new-task.component';
 import { NewTask } from './new-task/new-task.model';
 import { TasksService } from './tasks.service';
@@ -12,21 +11,19 @@ import { TasksService } from './tasks.service';
   styleUrl: './tasks.component.css',
 })
 export class TasksComponent {
-  allUsersTasks = signal(DUMMY_TASKS);
-
   userId = input.required<string>();
   userName = input.required<string>();
   isAddingTask = signal(false);
 
+  // tasksService is initialized via dependency injection
   constructor(private tasksService: TasksService) {}
 
-  selectedUserTasks = computed(() => {
+  get selectedUserTasks() {
     return this.tasksService.getUserTasks(this.userId());
-  });
+  }
 
   onCompleteTask(id: string) {
-    // this.allUsersTasks.set(this.allUsersTasks().filter((task) => task.id !== id));
-    this.allUsersTasks.update((v) => v.filter((task) => task.id !== id));
+    this.tasksService.deleteTask(id);
     console.log('Task completed:', id);
   }
 
@@ -35,21 +32,8 @@ export class TasksComponent {
     console.log('Adding a new task for user:', this.userId());
   }
 
-  onCancelAddingTask() {
+  onCloseNewTask() {
     this.isAddingTask.set(false);
-    console.log('Cancel adding task for user:', this.userId());
+    console.log('Finish adding a task for user:', this.userId());
   }
-
-  onAddNewTask(newTask: NewTask) {
-    this.allUsersTasks.update((v) => [
-      ...v,
-      { ...newTask, id: generateNewId() },
-    ]);
-    this.isAddingTask.set(false);
-    console.log('Added a new task for user:', newTask.userId);
-  }
-}
-function generateNewId(): string {
-  // todo improve
-  return new Date().getTime().toString();
 }
