@@ -3,6 +3,7 @@ import { TaskComponent } from './task/task.component';
 import { DUMMY_TASKS } from './dummy-tasks';
 import { NewTaskComponent } from './new-task/new-task.component';
 import { NewTask } from './new-task/new-task.model';
+import { TasksService } from './tasks.service';
 
 @Component({
   selector: 'app-tasks',
@@ -17,8 +18,10 @@ export class TasksComponent {
   userName = input.required<string>();
   isAddingTask = signal(false);
 
+  constructor(private tasksService: TasksService) {}
+
   selectedUserTasks = computed(() => {
-    return this.allUsersTasks().filter((task) => task.userId === this.userId());
+    return this.tasksService.getUserTasks(this.userId());
   });
 
   onCompleteTask(id: string) {
@@ -38,7 +41,10 @@ export class TasksComponent {
   }
 
   onAddNewTask(newTask: NewTask) {
-    this.allUsersTasks.update((v) => [...v, { ...newTask, id: generateNewId() }]);
+    this.allUsersTasks.update((v) => [
+      ...v,
+      { ...newTask, id: generateNewId() },
+    ]);
     this.isAddingTask.set(false);
     console.log('Added a new task for user:', newTask.userId);
   }
@@ -47,4 +53,3 @@ function generateNewId(): string {
   // todo improve
   return new Date().getTime().toString();
 }
-

@@ -1,7 +1,9 @@
+import { Injectable } from '@angular/core';
 import { DUMMY_TASKS } from './dummy-tasks';
 import { NewTask } from './new-task/new-task.model';
 
-class TasksService {
+@Injectable({ providedIn: 'root' })
+export class TasksService {
   private tasks = DUMMY_TASKS;
 
   getUserTasks(userId: string) {
@@ -21,5 +23,3 @@ class TasksService {
     return new Date().getTime().toString();
   }
 }
-
-export default TasksService;
