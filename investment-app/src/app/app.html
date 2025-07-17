@@ -1,0 +1,5 @@
+<app-header />
+<app-user-input  (calculate)="onCalculateResults($event)"/>
+@if(investmentParams) {
+  <app-investment-results [params]="investmentParams"/>
+}
