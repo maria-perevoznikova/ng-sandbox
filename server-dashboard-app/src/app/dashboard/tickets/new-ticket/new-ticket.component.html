@@ -1,16 +1,14 @@
 <form (ngSubmit)="onCreate()">
-  <p>
-    <label for="title">Title</label>
+  <app-control label="Title">
     <input id="title" name="title" /> <!-- [(ngModel)]="title"/> -->
-  </p>
+  </app-control>
 
-  <p>
-    <label for="request">Request</label>
+  <app-control label="Request">
     <textarea id="request" name="request" rows="3"></textarea> <!-- [(ngModel)]="request"></textarea> -->
-  </p>
+  </app-control>
 
   <p class="actions">
 <!--    <button type="button" (click)="onCancel()">Cancel</button>-->
-    <app-button [text]="'Submit'" [icon]="'⌲'"></app-button>
+    <button appButton text="Submit" icon="⌲"></button>
   </p>
 </form>
