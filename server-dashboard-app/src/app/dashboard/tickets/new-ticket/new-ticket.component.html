@@ -1,0 +1,19 @@
+<form (ngSubmit)="onCreate()">
+  <p>
+    <label for="title">Title</label>
+    <input id="title" name="title" /> <!-- [(ngModel)]="title"/> -->
+  </p>
+
+  <p>
+    <label for="request">Request</label>
+    <textarea id="request" name="request" rows="3"></textarea> <!-- [(ngModel)]="request"></textarea> -->
+  </p>
+
+  <p class="actions">
+<!--    <button type="button" (click)="onCancel()">Cancel</button>-->
+    <button type="submit">
+      <span>Submit</span>
+      <span class="icon">⌲</span>
+    </button>
+  </p>
+</form>
