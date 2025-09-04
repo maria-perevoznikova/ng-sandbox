@@ -16,7 +16,9 @@ import {ControlComponent} from "../../../shared/control/control.component";
 })
 export class NewTicketComponent {
 
-  onCreate() {
-
+  onSubmit(title: string, content: string, form: HTMLFormElement) {
+    console.log('Ticket title: ', title);
+    console.log('Ticket content: ', content);
+    form.reset();
   }
 }
