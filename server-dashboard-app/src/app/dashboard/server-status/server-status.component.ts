@@ -12,7 +12,7 @@ type ServerStatus = 'online' | 'offline' | 'unknown';
 export class ServerStatusComponent implements OnInit, OnDestroy {
   currentStatus: ServerStatus = 'offline';
   private statusList: ServerStatus[] = ['offline', 'online', 'unknown'];
-  private intervalId: any;
+  private intervalId?: ReturnType<typeof setInterval>;
 
   ngOnInit(): void {
     this.intervalId = setInterval(() => {
