@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, output} from '@angular/core';
 // import {ElementRef, viewChild} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {ButtonComponent} from "../../../shared/button/button.component";
@@ -19,10 +19,11 @@ export class NewTicketComponent {
 
   // viewChild function to access the form element
   // private formSignal = viewChild.required<ElementRef<HTMLFormElement>>('form');
+  add = output<{title: string, content: string}>();
 
   onSubmit(title: string, content: string, form: HTMLFormElement) {
-    console.log('Ticket title: ', title);
-    console.log('Ticket content: ', content);
+    console.log('Submit ticket', title);
+    this.add.emit({title, content});
     form.reset();
     // this.formSignal().nativeElement.reset();
   }
