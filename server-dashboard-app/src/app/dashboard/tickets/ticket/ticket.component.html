@@ -6,10 +6,10 @@
         'ticket-closed': false
       }"
     ></div>
-    <button>
+    <button (click)="onToggleContent()">
       <span class="text">{{ data().title }}</span>
       <span>
-        @if (true) {
+        @if (showContent()) {
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -43,7 +43,7 @@
     </button>
   </h3>
 
-  @if (true) {
+  @if (showContent()) {
     <p>{{ data().content}}</p>
 
     @if (data().status === 'open') {

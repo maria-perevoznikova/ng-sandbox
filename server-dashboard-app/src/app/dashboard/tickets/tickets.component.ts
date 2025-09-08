@@ -11,7 +11,13 @@ import {TicketComponent} from "./ticket/ticket.component";
   styleUrl: './tickets.component.css'
 })
 export class TicketsComponent {
-  tickets: Ticket[] = [];
+  private testTicket: Ticket = {
+    id: 't1',
+    title: 'Test Ticket',
+    content: 'This is a test ticket',
+    status: 'open'
+  };
+  tickets: Ticket[] = [this.testTicket];
 
   onAdd(ticketData: { title: string; content: string }) {
     const newTicket: Ticket = {
