@@ -1,11 +1,11 @@
 <form (ngSubmit)="onSubmit(titleInput.value, requestText.value, form)" #form>
   <app-control label="Title">
     <!-- #titleInput is a template variable -->
-    <input id="title" name="title" #titleInput/> <!-- [(ngModel)]="title"/> -->
+    <input id="title" name="title" #titleInput  [(ngModel)]="enteredTitle"/>
   </app-control>
 
   <app-control label="Request">
-    <textarea id="request" name="request" rows="3" #requestText></textarea> <!-- [(ngModel)]="request"></textarea> -->
+    <textarea id="request" name="request" rows="3" #requestText [(ngModel)]="enteredRequestText"></textarea>
   </app-control>
 
   <p class="actions">
