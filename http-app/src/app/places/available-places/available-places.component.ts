@@ -4,6 +4,7 @@ import { Place } from '../place.model';
 import { PlacesComponent } from '../places.component';
 import { PlacesContainerComponent } from '../places-container/places-container.component';
 import {HttpClient} from "@angular/common/http";
+import { BASE_URL } from '../../config';
 
 @Component({
   selector: 'app-available-places',
