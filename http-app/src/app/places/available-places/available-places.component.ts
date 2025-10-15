@@ -16,6 +16,7 @@ import {BASE_URL} from '../../config';
 export class AvailablePlacesComponent implements OnInit {
   places = signal<Place[]>([]);
   isFetching = signal(false);
+  isError = signal(false);
   private httpClient = inject(HttpClient);
   private destroyRef = inject(DestroyRef);
 
@@ -23,7 +24,11 @@ export class AvailablePlacesComponent implements OnInit {
     this.isFetching.set(true);
     const subscription = this.httpClient.get<{ places: Place[] }>(`${BASE_URL}/places`).subscribe({
       next: (data) => this.places.set(data.places),
-      complete: () => this.isFetching.set(false)
+      complete: () => this.isFetching.set(false),
+      error: () => {
+          this.isFetching.set(false);
+          this.isError.set(true);
+      }
     });
 
     this.destroyRef.onDestroy(() => subscription.unsubscribe());

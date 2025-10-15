@@ -2,6 +2,11 @@
   @if (isFetching()) {
     <p class="fallback-text">Fetching available places...</p>
   }
+
+  @if (isError()) {
+    <p class="fallback-text error">An error occurred while fetching places. Please try again later.</p>
+  }
+
   @if (places()) {
   <app-places [places]="places()" />
   } @else if (places().length === 0) {
