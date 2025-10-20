@@ -15,16 +15,15 @@ import {PlacesService} from "../places.service";
   imports: [PlacesContainerComponent, PlacesComponent],
 })
 export class UserPlacesComponent implements OnInit {
-  places = signal<Place[]>([]);
-  isFetching = signal(false);
-  isError = signal(false);
   private placesService = inject(PlacesService);
   private destroyRef = inject(DestroyRef);
+  places = this.placesService.loadedUserPlaces;
+  isFetching = signal(false);
+  isError = signal(false);
 
   ngOnInit(): void {
     this.isFetching.set(true);
     const subscription = this.placesService.loadUserPlaces().subscribe({
-      next: (data) => this.places.set(data.userPlaces),
       complete: () => this.isFetching.set(false),
       error: () => {
         this.isFetching.set(false);
@@ -36,9 +35,7 @@ export class UserPlacesComponent implements OnInit {
   }
 
   onSelectPlace(selectedPlace: Place) {
-    const subscription = this.placesService.removeUserPlace(selectedPlace).subscribe(
-      data => this.places.set(data.userPlaces),
-    );
+    const subscription = this.placesService.removeUserPlace(selectedPlace).subscribe();
     this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
 }

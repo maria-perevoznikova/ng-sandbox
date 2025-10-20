@@ -36,11 +36,7 @@ export class AvailablePlacesComponent implements OnInit {
   }
 
   onSelectPlace(selectedPlace: Place) {
-    const subscription = this.placesService.addPlaceToUserPlaces(selectedPlace).subscribe(
-      (data) => {
-        console.log('Added to user places, total amount of places:', data.userPlaces.length);
-      }
-    );
+    const subscription = this.placesService.addPlaceToUserPlaces(selectedPlace).subscribe();
     this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
 }
