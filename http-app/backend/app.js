@@ -19,8 +19,7 @@ app.use((req, res, next) => {
 });
 
 app.get("/places", async (req, res) => {
-  await new Promise((resolve) => setTimeout(resolve, 3000));
-
+  await new Promise((resolve) => setTimeout(resolve, 1500));
   // return res.status(500).send("Simulated server error");
 
   const fileContent = await fs.readFile("./data/places.json");
@@ -39,6 +38,9 @@ app.get("/user-places", async (req, res) => {
 });
 
 app.put("/user-places", async (req, res) => {
+  // await new Promise((resolve) => setTimeout(resolve, 1000));
+  // return res.status(500).send("Simulated server error");
+
   const placeId = req.body.placeId;
 
   const fileContent = await fs.readFile("./data/places.json");
