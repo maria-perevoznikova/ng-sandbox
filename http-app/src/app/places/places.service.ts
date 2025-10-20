@@ -21,10 +21,13 @@ export class PlacesService {
 
   loadUserPlaces() {
     return this.httpClient.get<{ userPlaces: Place[] }>(`${BASE_URL}/user-places`)
-      .pipe(tap(data => this.userPlaces.set(data.userPlaces)));
+      .pipe(
+        tap(data => this.userPlaces.set(data.userPlaces))
+      );
   }
 
   addPlaceToUserPlaces(place: Place) {
+    // Optimistic update
     const prevPlaces = this.userPlaces();
     if(!prevPlaces.some((p) => p.id === place.id)) {
       this.userPlaces.set([...prevPlaces, place]);
@@ -41,7 +44,16 @@ export class PlacesService {
   }
 
   removeUserPlace(place: Place) {
+    // Pessimistic update
     return this.httpClient.delete<{ userPlaces: Place[] }>(`${BASE_URL}/user-places/${place.id}`)
-      .pipe(tap(data => this.userPlaces.set(data.userPlaces)));
+      .pipe(
+        tap(data => this.userPlaces.set(data.userPlaces))
+      )
+      .pipe(
+        catchError(() => {
+          this.errorService.showError('Failed to remove the selected place.');
+          return throwError(() => new Error('Failed to remove the selected place.'));
+        })
+      );
   }
 }
