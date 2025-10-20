@@ -1,6 +1,7 @@
 import { Component, input, output } from '@angular/core';
 
 import { Place } from './place.model';
+import { BASE_URL } from '../config';
 
 @Component({
   selector: 'app-places',
@@ -15,5 +16,9 @@ export class PlacesComponent {
 
   onSelectPlace(place: Place) {
     this.selectPlace.emit(place);
+  }
+
+  getImageSrc(place: Place): string {
+    return `${BASE_URL}/${place.image.src}`;
   }
 }
