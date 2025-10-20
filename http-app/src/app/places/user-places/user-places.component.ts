@@ -5,6 +5,7 @@ import {PlacesComponent} from '../places.component';
 import {Place} from "../place.model";
 import {HttpClient} from "@angular/common/http";
 import {BASE_URL} from "../../config";
+import {PlacesService} from "../places.service";
 
 @Component({
   selector: 'app-user-places',
@@ -17,12 +18,12 @@ export class UserPlacesComponent implements OnInit {
   places = signal<Place[]>([]);
   isFetching = signal(false);
   isError = signal(false);
-  private httpClient = inject(HttpClient);
+  private placesService = inject(PlacesService);
   private destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
     this.isFetching.set(true);
-    const subscription = this.httpClient.get<{ userPlaces: Place[] }>(`${BASE_URL}/user-places`).subscribe({
+    const subscription = this.placesService.loadUserPlaces().subscribe({
       next: (data) => this.places.set(data.userPlaces),
       complete: () => this.isFetching.set(false),
       error: () => {
@@ -35,9 +36,7 @@ export class UserPlacesComponent implements OnInit {
   }
 
   onSelectPlace(selectedPlace: Place) {
-    const subscription = this.httpClient.delete<{
-      userPlaces: Place[]
-    }>(`${BASE_URL}/user-places/${selectedPlace.id}`).subscribe(
+    const subscription = this.placesService.removeUserPlace(selectedPlace).subscribe(
       data => this.places.set(data.userPlaces),
     );
     this.destroyRef.onDestroy(() => subscription.unsubscribe());

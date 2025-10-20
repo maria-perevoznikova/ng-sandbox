@@ -5,6 +5,7 @@ import {PlacesComponent} from '../places.component';
 import {PlacesContainerComponent} from '../places-container/places-container.component';
 import {HttpClient} from "@angular/common/http";
 import {BASE_URL} from '../../config';
+import {PlacesService} from "../places.service";
 
 @Component({
   selector: 'app-available-places',
@@ -17,12 +18,12 @@ export class AvailablePlacesComponent implements OnInit {
   places = signal<Place[]>([]);
   isFetching = signal(false);
   isError = signal(false);
-  private httpClient = inject(HttpClient);
+  private placesService = inject(PlacesService);
   private destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
     this.isFetching.set(true);
-    const subscription = this.httpClient.get<{ places: Place[] }>(`${BASE_URL}/places`).subscribe({
+    const subscription = this.placesService.loadAvailablePlaces().subscribe({
       next: (data) => this.places.set(data.places),
       complete: () => this.isFetching.set(false),
       error: () => {
@@ -35,9 +36,7 @@ export class AvailablePlacesComponent implements OnInit {
   }
 
   onSelectPlace(selectedPlace: Place) {
-    const subscription = this.httpClient.put<{ userPlaces: Place[] }>(`${BASE_URL}/user-places`, {
-      placeId: selectedPlace.id
-    }).subscribe(
+    const subscription = this.placesService.addPlaceToUserPlaces(selectedPlace).subscribe(
       (data) => {
         console.log('Added to user places, total amount of places:', data.userPlaces.length);
       }
