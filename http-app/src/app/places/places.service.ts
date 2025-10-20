@@ -3,7 +3,7 @@ import {inject, Injectable, signal} from '@angular/core';
 import {Place} from './place.model';
 import {BASE_URL} from "../config";
 import {HttpClient} from "@angular/common/http";
-import {tap} from "rxjs";
+import {catchError, tap, throwError} from "rxjs";
 
 @Injectable({
   providedIn: 'root',
@@ -23,8 +23,18 @@ export class PlacesService {
   }
 
   addPlaceToUserPlaces(place: Place) {
+    const prevPlaces = this.userPlaces();
+    if(!prevPlaces.some((p) => p.id === place.id)) {
+      this.userPlaces.set([...prevPlaces, place]);
+    }
+
     return this.httpClient.put<{ userPlaces: Place[] }>(`${BASE_URL}/user-places`, {placeId: place.id})
-      .pipe(tap(data => this.userPlaces.set(data.userPlaces)));
+      .pipe(
+        catchError(() => {
+          this.userPlaces.set(prevPlaces);
+          return throwError(() => new Error('Failed to store selected place.'));
+        })
+      );
   }
 
   removeUserPlace(place: Place) {
