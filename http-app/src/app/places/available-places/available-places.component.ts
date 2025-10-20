@@ -34,15 +34,14 @@ export class AvailablePlacesComponent implements OnInit {
     this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
 
-  protected readonly onselect = onselect;
-
   onSelectPlace(selectedPlace: Place) {
-    this.httpClient.put(`${BASE_URL}/user-places`, {
+    const subscription = this.httpClient.put<{ userPlaces: Place[] }>(`${BASE_URL}/user-places`, {
       placeId: selectedPlace.id
     }).subscribe(
-      () => {
-        console.log(selectedPlace);
+      (data) => {
+        console.log('Added to user places, total amount of places:', data.userPlaces.length);
       }
     );
+    this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
 }
