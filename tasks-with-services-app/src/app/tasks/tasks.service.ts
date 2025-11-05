@@ -1,37 +1,30 @@
-import {Injectable} from "@angular/core";
+import {Injectable, signal} from "@angular/core";
 import {Task, TaskStatus} from "./task.model";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class TasksService {
-
-  private tasks: Task[] = [];
+  private readonly tasks = signal<Task[]>([]);
+  allTasks = this.tasks.asReadonly();
 
   constructor() {
     const tasks = localStorage.getItem('tasks');
     if (tasks) {
-      this.tasks = JSON.parse(tasks);
+      this.tasks.set(JSON.parse(tasks));
     }
   }
 
-  getTasks() {
-    return this.tasks;
-  }
-
-  addTask(title: string, description: string) {
+  addTask(taskData: { title: string, description: string }) {
     const newTask = {
+      ...taskData,
       id: this.generateId(),
-      title,
-      description,
-      status: 'OPEN' as const
+      status: 'OPEN' as TaskStatus
     }
-    this.tasks = [...this.tasks, newTask];
+    this.tasks.set([...this.tasks(), newTask]);
     this.saveTasks();
   }
 
   updateTaskStatus(id: string, status: TaskStatus) {
-    this.tasks = this.tasks.map(task =>
-      task.id === id ? { ...task, status } : task
-    );
+    this.tasks.set(this.tasks().map(task => task.id === id ? {...task, status} : task));
     this.saveTasks();
   }
 
@@ -40,7 +33,7 @@ export class TasksService {
   }
 
   private saveTasks() {
-    localStorage.setItem('tasks', JSON.stringify(this.tasks));
+    localStorage.setItem('tasks', JSON.stringify(this.tasks()));
   }
 
 }
