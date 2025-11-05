@@ -13,37 +13,20 @@ import {TasksService} from "../../tasks.service";
 })
 export class TaskItemComponent {
 
-  private taskService = inject(TasksService);
+  private readonly statusDisplayMapping: Record<TaskStatus, string> = {
+    'OPEN': 'Open',
+    'IN_PROGRESS': 'Working on it',
+    'DONE': 'Completed'
+  };
+
+  private tasksService = inject(TasksService);
   task = input.required<Task>();
   taskStatus = computed(() => {
-    switch (this.task().status) {
-      case 'OPEN':
-        return 'Open';
-      case 'IN_PROGRESS':
-        return 'Working on it';
-      case 'DONE':
-        return 'Completed';
-      default:
-        return 'Open';
-    }
+    return this.statusDisplayMapping[this.task().status];
   });
 
   onChangeTaskStatus(taskId: string, status: string) {
-    let newStatus: TaskStatus = 'OPEN';
-    switch (status) {
-      case 'open':
-        newStatus = 'OPEN';
-        break;
-      case 'in-progress':
-        newStatus = 'IN_PROGRESS';
-        break;
-      case 'done':
-        newStatus = 'DONE';
-        break;
-      default:
-        break;
-    }
-
-    this.taskService.updateTaskStatus(taskId, newStatus);
+    const newStatus = this.tasksService.FILTER_STATUS_MAP[status];
+    this.tasksService.updateTaskStatus(taskId, newStatus || 'OPEN');
   }
 }
