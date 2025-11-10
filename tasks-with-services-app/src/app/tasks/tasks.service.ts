@@ -1,8 +1,12 @@
-import {Injectable, signal} from "@angular/core";
+import {inject, Injectable, signal} from "@angular/core";
 import {Task, TaskStatus} from "./task.model";
+import {LoggingService} from "../logging.service";
 
-@Injectable({providedIn: 'root'})
+@Injectable({
+  providedIn: 'root'
+})
 export class TasksService {
+  private loggingService = inject(LoggingService);
   private readonly tasks = signal<Task[]>([]);
   allTasks = this.tasks.asReadonly();
 
@@ -39,6 +43,7 @@ export class TasksService {
   }
 
   private saveTasks() {
+    this.loggingService.log('Saving tasks to localStorage');
     localStorage.setItem('tasks', JSON.stringify(this.tasks()));
   }
 
