@@ -17,7 +17,7 @@ import {
 })
 export class TasksListComponent {
   private tasksService = inject(TasksService);
-  private taskStatusDisplayOptions = inject(TASK_STATUS_DISPLAY_OPTIONS);
+  taskStatusDisplayOptions = inject(TASK_STATUS_DISPLAY_OPTIONS);
   private selectedFilter = signal<string>('all');
 
   tasks = computed(() => {

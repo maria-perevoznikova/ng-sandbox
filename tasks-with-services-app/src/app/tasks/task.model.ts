@@ -9,7 +9,7 @@ export interface Task {
   status: TaskStatus;
 }
 
-type TaskStatusDisplayOptions = {
+export type TaskStatusDisplayOptions = {
   value: 'open' | 'in-progress' | 'done';
   taskStatus: TaskStatus;
   displayText: string;

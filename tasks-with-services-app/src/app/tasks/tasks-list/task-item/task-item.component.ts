@@ -21,7 +21,7 @@ export class TaskItemComponent {
   };
 
   private tasksService = inject(TasksService);
-  private taskStatusDisplayOptions = inject(TASK_STATUS_DISPLAY_OPTIONS);
+  taskStatusDisplayOptions = inject(TASK_STATUS_DISPLAY_OPTIONS);
   task = input.required<Task>();
   taskStatus = computed(() => {
     return this.statusDisplayMapping[this.task().status];
