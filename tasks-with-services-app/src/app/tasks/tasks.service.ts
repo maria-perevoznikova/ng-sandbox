@@ -10,12 +10,6 @@ export class TasksService {
   private readonly tasks = signal<Task[]>([]);
   allTasks = this.tasks.asReadonly();
 
-  readonly FILTER_STATUS_MAP: Record<string, TaskStatus> = {
-    'open': 'OPEN',
-    'in-progress': 'IN_PROGRESS',
-    'done': 'DONE'
-  };
-
   constructor() {
     const tasks = localStorage.getItem('tasks');
     if (tasks) {
